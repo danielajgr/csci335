@@ -97,7 +97,14 @@ public class Checkerboard {
     @Override
     public boolean equals(Object other) {
         if (other instanceof Checkerboard board) {
-            return board.board.equals(this.board);
+            for (int row = 0; row < numRows(); row++) {
+                for (int col = 0; col < numCols(); col++) {
+                    if (!this.pieceAt(row, col).equals(board.pieceAt(row, col))) {
+                        return false;
+                    }
+                }
+            }
+            return true;
         } else {
             return false;
         }

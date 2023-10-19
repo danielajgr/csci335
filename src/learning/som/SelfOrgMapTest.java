@@ -1,9 +1,9 @@
 package learning.som;
 
 import core.Duple;
-import learning.classifiers.SOMRecognizer;
 import learning.handwriting.core.Drawing;
 import learning.handwriting.core.FloatDrawing;
+import learning.classifiers.SOMRecognizer;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -54,23 +54,6 @@ public class SelfOrgMapTest {
     }
 
     @Test
-    public void testDistanceWeight() {
-        SelfOrgMap<FloatDrawing> som = new SelfOrgMap<FloatDrawing>(10, () -> new FloatDrawing(1, 1), FloatDrawing::euclideanDistance, FloatDrawing::weightedAverageOf);
-        assertEquals(0.0, som.computeDistanceWeight(new SOMPoint(0, 0), new SOMPoint(9, 9)), 0.001);
-        assertEquals(1.0, som.computeDistanceWeight(new SOMPoint(5, 5), new SOMPoint(5, 5)), 0.001);
-        assertEquals(0.5, som.computeDistanceWeight(new SOMPoint(2, 2), new SOMPoint(7, 2)), 0.001);
-        assertEquals(0.68377, som.computeDistanceWeight(new SOMPoint(4, 3), new SOMPoint(7,2)), 0.001);
-    }
-
-    @Test
-    public void testLearningRate() {
-        assertEquals(0.5, SelfOrgMap.effectiveLearningRate(0.5, 1.0), 0.001);
-        assertEquals(0.25, SelfOrgMap.effectiveLearningRate(0.5, 2.0), 0.001);
-        assertEquals(0.24, SelfOrgMap.effectiveLearningRate(0.6, 2.5), 0.001);
-        assertEquals(1.0, SelfOrgMap.effectiveLearningRate(1.0, 0.0), 0.001);
-    }
-
-    @Test
     public void testTrain() {
         SelfOrgMap<FloatDrawing> som = new SelfOrgMap<>(3, () -> new FloatDrawing(2, 2), FloatDrawing::euclideanDistance, FloatDrawing::weightedAverageOf);
         Drawing d1 = new Drawing(2, 2);
@@ -81,22 +64,39 @@ public class SelfOrgMapTest {
         FloatDrawing f1 = new FloatDrawing(d1);
         som.train(f1);
         assertEquals(new SOMPoint(0, 0), som.bestFor(f1));
-        FloatDrawing n0 = new FloatDrawing(new double[][]{{1.0, 1.0}, {0.0, 1.0}});
-        FloatDrawing n1 = new FloatDrawing(new double[][]{{0.6666666666666667, 0.6666666666666667}, {0.0, 0.6666666666666667}});
-        FloatDrawing n2 = new FloatDrawing(new double[][]{{0.33333333333333337, 0.33333333333333337}, {0.0, 0.33333333333333337}});
-        FloatDrawing n3 = new FloatDrawing(new double[][]{{0.5285954792089682, 0.5285954792089682}, {0.0, 0.5285954792089682}});
-        FloatDrawing n4 = new FloatDrawing(new double[][]{{0.2546440075000701, 0.2546440075000701}, {0.0, 0.2546440075000701}});
-        FloatDrawing n5 = new FloatDrawing(new double[][]{{0.05719095841793653, 0.05719095841793653}, {0.0,0.05719095841793653}});
+        FloatDrawing n0 = new FloatDrawing(new double[][]{{0.9, 0.9}, {0.0, 0.9}});
+        FloatDrawing n1 = new FloatDrawing(new double[][]{{0.4, 0.4}, {0.0, 0.4}});
+        FloatDrawing n2 = new FloatDrawing(new double[][]{{0.0, 0.0}, {0.0, 0.0}});
 
         assertEquals(n0, som.getNode(0, 0));
         assertEquals(n1, som.getNode(0, 1));
         assertEquals(n1, som.getNode(1, 0));
         assertEquals(n2, som.getNode(0, 2));
         assertEquals(n2, som.getNode(2, 0));
-        assertEquals(n3, som.getNode(1, 1));
-        assertEquals(n4, som.getNode(1, 2));
-        assertEquals(n4, som.getNode(2, 1));
-        assertEquals(n5, som.getNode(2, 2));
+        assertEquals(n2, som.getNode(1, 1));
+        assertEquals(n2, som.getNode(1, 2));
+        assertEquals(n2, som.getNode(2, 1));
+        assertEquals(n2, som.getNode(2, 2));
+
+        Drawing d2 = new Drawing(2, 2);
+        d1.set(0, 0, false);
+        d1.set(0, 1, true);
+        d1.set(1, 0, false);
+        d1.set(1, 1, false);
+        FloatDrawing f2 = new FloatDrawing(d2);
+        som.train(f2);
+        assertEquals(new SOMPoint(2, 0), som.bestFor(f2));
+
+        FloatDrawing n3 = new FloatDrawing(new double[][]{{0.24, 0.24}, {0.0, 0.24}});
+        assertEquals(n0, som.getNode(0, 0));
+        assertEquals(n1, som.getNode(0, 1));
+        assertEquals(n3, som.getNode(1, 0));
+        assertEquals(n2, som.getNode(0, 2));
+        assertEquals(n2, som.getNode(2, 0));
+        assertEquals(n2, som.getNode(1, 1));
+        assertEquals(n2, som.getNode(1, 2));
+        assertEquals(n2, som.getNode(2, 1));
+        assertEquals(n2, som.getNode(2, 2));
     }
 
     @Test

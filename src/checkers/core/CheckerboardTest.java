@@ -25,6 +25,12 @@ public class CheckerboardTest {
     }
 
     @Test
+    public void duplicateTest() {
+        Checkerboard board = new Checkerboard();
+        assertEquals(board, board.duplicate());
+    }
+
+    @Test
     public void test1() {
         Checkerboard board = fromMoves("""
 (5, 2) to (4, 1)
