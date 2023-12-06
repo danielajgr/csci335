@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class DrawingForest30 extends RandomForest<Drawing,String,DrawingPoint, PixelUse> implements PixelUser {
 	private int width, height;
-	
+
 	public DrawingForest30() {
 		super(30, Drawing::allFeatures, Drawing::getFeatureValue, PixelUse::successor);
 	}

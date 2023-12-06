@@ -4,6 +4,7 @@ import core.Duple;
 import learning.core.Classifier;
 import learning.core.Histogram;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -50,4 +51,33 @@ public class NaiveBayes<V,L,F> implements Classifier<V,L> {
         // Your code here.
         return null;
     }
+=======
+import java.util.*;
+import java.util.function.ToDoubleBiFunction;
+
+public class NaiveBayes<V, L> implements Classifier<V, L> {
+    private ArrayList<Duple<V, L>> data = new ArrayList<>();
+    private Map<L, Histogram<V>> featureCounts;
+    private Histogram<L> labelCounts;
+    private int total;
+
+    public NaiveBayes() {
+        this.total = 0;
+        this.featureCounts = new HashMap<>();
+        this.labelCounts = new Histogram<>();
+    }
+    @Override
+    public L classify(V example) {
+        return null;
+    }
+
+    @Override
+    public void train(ArrayList<Duple<V, L>> data) {
+        for(Duple<V, L> set : data){
+            labelCounts.bump(set.getSecond());
+        }
+
+
+    }
+>>>>>>> a18b785 (project1)
 }

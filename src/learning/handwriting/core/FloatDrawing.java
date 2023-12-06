@@ -33,7 +33,6 @@ public class FloatDrawing {
     //  is calculated as follows:
     //  d1weight * d1 pixel value + (1.0 - d1weight) * d2 pixel value
     public static FloatDrawing weightedAverageOf(FloatDrawing d1, FloatDrawing d2, double d1weight) {
-        // Your code here
         return null;
     }
 

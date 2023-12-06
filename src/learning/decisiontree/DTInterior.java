@@ -14,7 +14,7 @@ public class DTInterior<V, L, F, FV extends Comparable<FV>> implements DecisionT
 	private FV maxFeatureValue;
 	private BiFunction<V,F,FV> getFeatureValue;
 	private Function<FV,FV> successor;
-	
+
 	public DTInterior(F decisionFeature, FV maxFeatureValue, DecisionTree<V,L,F,FV> left, DecisionTree<V,L,F,FV> right,
 					  BiFunction<V,F,FV> getFeatureValue, Function<FV,FV> successor) {
 		this.left = left;
@@ -30,7 +30,13 @@ public class DTInterior<V, L, F, FV extends Comparable<FV>> implements DecisionT
 		// TODO: If the targeted decisionFeature is less than or equal to the maxFeatureValue, ask the left subtree.
 		//       Otherwise, ask the right subtree.
 		//       DTTest.testInterior() should pass when this works.
-		return null;
+		FV datafeature = getFeatureValue.apply(v, decisionFeature);
+		if (datafeature.compareTo(maxFeatureValue)<=0)
+			return left.classify(v);
+		else{
+			return right.classify(v);
+		}
+
 	}
 
 	@Override
